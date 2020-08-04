@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="drum-kit.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="keys">
+      <div data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">hihat</span>
+      </div>
+      <div data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">kich</span>
+      </div>
+      <div data-key="70" class="key">
+        <kbd>F</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">ride</span>
+      </div>
+      <div data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </div>
+      <div data-key="76" class="key">
+        <kbd>L</kbd>
+        <span class="sound">tink</span>
+      </div>
+    </div>
+
+    <audio data-key="65" class="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+
+    <script>
+      // window.addEventListener("keydown", function(e){
+      //     // console.log(e.keyCode);
+      //     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      //     let key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+      //     // console.log(audio);
+      //     // if(audio == null) return; // stop the function from starting all together
+      //     if(!audio) return; // nếu không phải là audio thì trả về return;
+
+      //     audio.currentTime = 0;
+      //     // thiết lập thời gian trả về trạng thái ban đầu. để có thể liên tục click mà vẫn phát nhạc đủ số lượt
+
+      //     audio.play();
+      //     // console.log(key);
+      //     key.classList.add('surprise');
+
+      //     const keys = document.querySelectorAll('.key');
+      //     // console.log(keys);
+
+      //     function removeTransition(){
+      //         this.classList.remove('surprise');
+      //     }
+      //     keys.forEach(key => key.addEventListener('transitionend',removeTransition));
+      // });
+
+      window.addEventListener("keyup", function (e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`),
+          key = document.querySelector(`.key[data-key="${e.keyCode}"]`),
+          keys = document.querySelectorAll(".key");
+
+        console.log(key);
+        console.log(keys);
+
+        if (!audio) return;
+
+        audio.currentTime = 0;
+        audio.play();
+
+        key.classList.add("surprise");
+
+        // keys.forEach((key) => key.classList.remove("surprise"));
+        // không làm được theo cách này vì "surprise" cần phải được thực thi xong mới xóa, nếu làm như trên là nó chưa kịp thực thi đã bị xóa đi rồi
+
+        keys.forEach((key) =>
+          key.addEventListener("transitionend", removeTransition)
+        );
+        // sử dụng transitionend để khi nó kết thúc "surprise" rồi thì mới cho xóa "surprise" đi
+        function removeTransition() {
+          this.classList.remove("surprise");
+        }
+      });
+    </script>
+  </body>
+</html>
